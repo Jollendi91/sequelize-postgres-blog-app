@@ -34,7 +34,54 @@ router.post('/', (req, res) => {
     .catch(err => res.status(500).send({message: err.message}));
 });
 
+router.put('/:id', (req, res) => {
+    if(!(req.params.id && req.body.id && req.params.id === req.body.id)) {
+        const message = `Request path id(${req.params.id}) and request body id (${req.body.id}) must match`;
 
+        res.status(400).json({message});
+    }
+
+    const toUpdate = {};
+    const updateableFields = ['title', 'content'];
+
+    updateableFields.forEach(field => {
+        if (field in req.body) {
+            toUpdate[field] = req.body[field];
+        }
+    });
+
+    return Post
+        .update(toUpdate, {
+            where: {
+                id: req.body.id
+            }
+        })
+        .then(() => res.status(204).end())
+        .catch(err => res.status(500).json({message: 'Internal server error'}));
+    }
+);
+
+router.delete('/:id', (req, res) => {
+    return Post.destroy({
+        where: {
+            id: req.params.id
+        }
+    })
+    .then(() => res.status(204).end())
+    .catch(err => res.status(500).json({message: 'Internal server error'}));
+});
+
+
+router.get('/:id/comments', (req, res) => {
+    return Comment.findAll({
+        where: {
+            post_id: req.params.id
+        }
+    })
+    .then(posts => res.json({
+        posts: posts.map(post => post.apiRepr())
+    }))
+});
 
 
 module.exports = router;
