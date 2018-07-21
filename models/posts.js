@@ -16,24 +16,23 @@ const Post = sequelize.define('Post', {
 },
 {
     tableName: 'posts',
-    classMethods: {
-        associate: function(models) {
-            Post.belongsTo(
-                models.Author,
-                {foreignKey: {allowNull: false}}
-            );
-        }
-    },
-    instanceMethods: {
-        apiRepr: function() {
-            return {
-                id: this.id,
-                title: this.title,
-                content: this.content
-            }
-        }
-    }
+    underscored: true
 });
+
+Post.associate = function(models) {
+    Post.belongsTo(
+        models.Author,
+        {foreignKey: {allowNull: false}}
+    );
+};
+
+Post.prototype.apiRepr = function() {
+    return {
+        id: this.id,
+        title: this.title,
+        content: this.content
+    }
+};
 
 module.exports = {
     Post
