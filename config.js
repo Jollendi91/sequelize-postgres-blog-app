@@ -13,7 +13,9 @@ const TEST_DATABASE_URL = (
 module.exports = {
     PORT: process.env.PORT || 8080,
     DATABASE_URL: env === 'test' ? TEST_DATABASE_URL : DATABASE_URL,
-
+    DATABASE_NAME: process.env.DATABASE_NAME,
+    DATABASE_USERNAME: process.env.DATABASE_USERNAME,
+    DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
     SEQUELIZE_OPTIONS: {
         logging: env === 'test' ? false : console.log,
         dialect: 'postgres'

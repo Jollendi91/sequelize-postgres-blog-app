@@ -4,7 +4,9 @@ CREATE TABLE authors (
     id serial PRIMARY KEY,
     first_name TEXT,
     last_name TEXT,
-    username TEXT NOT NULL
+    username TEXT NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL
 );
 
 CREATE TABLE posts (
@@ -23,6 +25,7 @@ CREATE TABLE comments (
     updated_at TIMESTAMP NOT NULL,
     author_id INTEGER REFERENCES authors ON DELETE CASCADE NOT NULL,
     post_id INTEGER REFERENCES posts ON DELETE CASCADE NOT NULL
-)
+);
+
 
 COMMIT;
