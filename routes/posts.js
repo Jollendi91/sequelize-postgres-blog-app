@@ -35,7 +35,7 @@ router.post('/', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-    if(!(req.params.id && req.body.id && req.params.id === req.body.id)) {
+    if(!(req.params.id && req.body.id && req.params.id === req.body.id.toString())) {
         const message = `Request path id(${req.params.id}) and request body id (${req.body.id}) must match`;
 
         res.status(400).json({message});
@@ -78,8 +78,8 @@ router.get('/:id/comments', (req, res) => {
             post_id: req.params.id
         }
     })
-    .then(posts => res.json({
-        posts: posts.map(post => post.apiRepr())
+    .then(comments => res.json({
+        comments: comments.map(comment => comment.apiRepr())
     }))
 });
 
